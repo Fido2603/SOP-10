@@ -1,4 +1,7 @@
 .idea/
+Util/data.xlsx
+data*.xlsx
+Numbers.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
