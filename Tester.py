@@ -1,8 +1,8 @@
 import datetime
 import sys
 from Util import SheetManager
-import Fibonacci_nodraw
-import Fibonacci_nonrecur_nodraw
+import Fibonacci_recursive
+import Fibonacci_nonrecursive
 
 
 def main():
@@ -13,21 +13,21 @@ def main():
     print("------------------------")
 
     # Testing the different sortings
-    iterations = 20  # Running the different sortings this amount of times
+    iterations = 200  # Running the different sortings this amount of times
 
-    # Recursive fibonacci #
-    print("---- Fibonacci RECURIVE ----")
-    type = "Fibonacci Recursive"
+    # # Recursive fibonacci #
+    # print("---- Fibonacci RECURIVE ----")
+    # type = "Fibonacci Recursive"
 
-    # # Non-recursive fibonacci #
-    # print("---- Fibonacci NON-RECURIVE ----")
-    # type = "Fibonacci Non-recursive"
+    # Non-recursive fibonacci #
+    print("---- Fibonacci NON-RECURIVE ----")
+    type = "Fibonacci Non-recursive"
 
     # Do testing
-    ws = SheetManager.new_worksheet(type)
+    ws = SheetManager.new_worksheet(type + "-" + str(iterations) + "ite")
     number = 0
     while True:
-        if number > 40:
+        if number > 4000:  # At 1476 the Fibonacci number gets too big to convert from int to float in Python
             break
         testSorter(ws, type, number, iterations)
         number += 1
@@ -75,7 +75,11 @@ def testSorter(ws, type, number=None, iterations=1000):
     average_time = all_time/iterations
 
     print("Writing to spreadsheet!")
-    SheetManager.write_newentry((number, average_time, minimum, maximum, output[0]), ws)
+    if number < 1476:  # At 1476 the Fibonacci number gets too big to convert from int to float in Python, so OpenPyXL breaks
+        SheetManager.write_newentry((number, average_time, minimum, maximum, output[0]), ws)
+    else:
+        SheetManager.write_newentry((number, average_time, minimum, maximum), ws)
+
     print("Done writing to spreadsheet!")
 
     print("Time taken, average, for a " + type + " type, with a number of " + str(number) + ", during " + str(
@@ -87,7 +91,7 @@ def testSorter(ws, type, number=None, iterations=1000):
 def testFibonacciRecursive(number):
     time_start = datetime.datetime.now()  # Starts the time
 
-    fib = Fibonacci_nodraw.fib(number)  # Runs the Function
+    fib = Fibonacci_recursive.fib(number)  # Runs the Function
 
     time_end = datetime.datetime.now()  # Ends the time
 
@@ -99,7 +103,7 @@ def testFibonacciRecursive(number):
 def testFibonacciNonRecursive(number):
     time_start = datetime.datetime.now()  # Starts the time
 
-    fib = Fibonacci_nonrecur_nodraw.fib(number)  # Runs the Function
+    fib = Fibonacci_nonrecursive.fib_noarray(number)  # Runs the Function
 
     time_end = datetime.datetime.now()  # Ends the time
 
