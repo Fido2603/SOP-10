@@ -27,7 +27,7 @@ def main():
     ws = SheetManager.new_worksheet(type + "-" + str(iterations) + "ite")
     number = 0
     while True:
-        if number > 4000:  # At 1476 the Fibonacci number gets too big to convert from int to float in Python
+        if number > 4000:
             break
         testSorter(ws, type, number, iterations)
         number += 1
